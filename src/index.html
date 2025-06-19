@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby's First Foods Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="title-container">
+            <h1>BABY'S FIRST FOODS</h1>
+            <p class="subtitle">TRACKING CHART</p>
+        </div>
+        <h2 id="baby-name-display"></h2>
+    </header>
+
+    <section id="baby-name-form-section" class="hidden">
+        <h3>Enter Your Baby's Name</h3>
+        <form id="baby-name-form">
+            <input type="text" id="baby-name-input" placeholder="Baby's Name" required>
+            <button type="submit">Save Name</button>
+        </form>
+    </section>
+
+    <main id="food-chart-section" class="hidden">
+        <section class="food-category">
+            <h3 class="category-header grains">Grains</h3>
+            <ul>
+                <li data-food-id="barley">Barley <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="bread">Bread <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="couscous">Couscous <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="oatmeal">Oatmeal <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="pasta">Pasta <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="rice">Rice <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="tortilla">Tortilla <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+            </ul>
+        </section>
+
+        <section class="food-category">
+            <h3 class="category-header herbs-spices">Herbs and Spices</h3>
+            <ul>
+                <li data-food-id="basil">Basil <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="cinnamon">Cinnamon <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="dill">Dill <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="garlic">Garlic <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="ginger">Ginger <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="mint">Mint <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="nutmeg">Nutmeg <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="onion">Onion <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="paprika">Paprika <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="pepper">Pepper <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="rosemary">Rosemary <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="turmeric">Turmeric <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+            </ul>
+        </section>
+
+        <section class="food-category">
+            <h3 class="category-header protein">Protein</h3>
+            <ul>
+                <li data-food-id="beef">Beef <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="black-beans">Black Beans <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="chia-seeds">Chia Seeds <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="chicken">Chicken <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="chickpeas">Chickpeas <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="flaxseed">Flaxseed <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="hemp-seeds">Hemp Seeds <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="kidney-beans">Kidney Beans <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="lamb">Lamb <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="pork">Pork <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="salmon">Salmon <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="tofu">Tofu <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="tuna">Tuna <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="turkey">Turkey <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="white-beans">White Beans <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+            </ul>
+        </section>
+
+        <section class="food-category">
+            <h3 class="category-header dairy">Dairy</h3>
+            <ul>
+                <li data-food-id="butter">Butter <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="cheddar">Cheddar <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="cottage">Cottage <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="goat-cheese">Goat Cheese <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="mozzarella">Mozzarella <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="parmesan">Parmesan <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="ricotta">Ricotta <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="yoghurt">Yoghurt <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+            </ul>
+        </section>
+
+        <section class="food-category">
+            <h3 class="category-header allergens">Common Allergens</h3>
+            <ul>
+                <li data-food-id="cows-milk">Cow's Milk <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="eggs">Eggs <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="fish">Fish <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="peanuts">Peanuts <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="sesame">Sesame <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="shellfish">Shellfish <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="soy">Soy <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="tree-nuts">Tree Nuts <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="wheat">Wheat <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+            </ul>
+        </section>
+
+        <section class="food-category">
+            <h3 class="category-header fruit">Fruit</h3>
+            <ul>
+                <li data-food-id="apple">Apple <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="apricot">Apricot <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="avocado">Avocado <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="banana">Banana <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="blackberry">Blackberry <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="blueberry">Blueberry <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="cantaloupe">Cantaloupe <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="cherry">Cherry <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="cranberry">Cranberry <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="fig">Fig <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="grapefruit">Grapefruit <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="grapes">Grapes <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="kiwi-fruit">Kiwi Fruit <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="lemon">Lemon <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="lime">Lime <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="mango">Mango <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="nectarine">Nectarine <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="orange">Orange <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="papaya">Papaya <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="peach">Peach <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="pear">Pear <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="pineapple">Pineapple <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="plum">Plum <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="prunes">Prunes <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="raspberry">Raspberry <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="strawberry">Strawberry <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="watermelon">Watermelon <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+            </ul>
+        </section>
+
+        <section class="food-category">
+            <h3 class="category-header vegetables">Vegetables</h3>
+            <ul>
+                <li data-food-id="asparagus">Asparagus <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="beetroot">Beetroot <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="bell-pepper">Bell Pepper <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="broccoli">Broccoli <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="carrots">Carrots <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="cauliflower">Cauliflower <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="corn">Corn <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="cucumber">Cucumber <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="eggplant">Eggplant <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="green-beans">Green Beans <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="kale">Kale <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="leek">Leek <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="mushroom">Mushroom <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="parsnips">Parsnips <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="peas">Peas <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="potato">Potato <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="pumpkin">Pumpkin <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="spinach">Spinach <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="squash">Squash <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="sweet-potato">Sweet Potato <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="tomato">Tomato <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+                <li data-food-id="zucchini">Zucchini <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+            </ul>
+        </section>
+
+        <section class="food-category">
+            <h3 class="category-header other-foods">Other Foods</h3>
+            <ul>
+                <!-- Placeholder for dynamic entries -->
+                <li data-food-id="placeholder-item">Placeholder Item <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <nav class="footer-menu">
+            <a href="#" title="add child">[+] Add Child</a>
+            <a href="#" title="first food stats">[Chart] Stats</a>
+        </nav>
+    </footer>
+
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>
