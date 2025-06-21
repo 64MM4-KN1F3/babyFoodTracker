@@ -8,8 +8,10 @@ import {
     signOut,
     onAuthStateChanged
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 let auth;
+let db;
 
 /**
  * Initializes the Firebase app and auth services.
@@ -18,7 +20,20 @@ let auth;
 export function initializeFirebaseApp(firebaseConfig) {
     const app = initializeApp(firebaseConfig);
     auth = getAuth(app);
-    console.log("Firebase initialized.");
+    db = getFirestore(app); // Initialize Firestore
+    console.log("Firebase initialized with Auth and Firestore.");
+}
+
+/**
+ * Returns the initialized Firestore database instance.
+ * @returns {Firestore}
+ */
+export function getDb() {
+    if (!db) {
+        console.error("Firestore is not initialized. Call initializeFirebaseApp first.");
+        // Potentially throw an error or handle re-initialization if appropriate
+    }
+    return db;
 }
 
 /**

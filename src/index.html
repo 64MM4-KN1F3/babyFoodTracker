@@ -8,24 +8,30 @@
 </head>
 <body>
     <header>
+        <div class="auth-container">
+            <button id="login-button" class="auth-button">Login with Google</button>
+            <button id="logout-button" class="auth-button hidden">Logout</button>
+        </div>
         <div class="title-container">
             <h1>BABY'S FIRST FOODS</h1>
             <p class="subtitle">TRACKING CHART</p>
         </div>
         <h2 id="baby-name-display"></h2>
+        <p id="user-email-display" class="hidden"></p>
     </header>
 
-    <section id="baby-name-form-section" class="hidden">
-        <h3>Enter Your Baby's Name</h3>
-        <form id="baby-name-form">
-            <input type="text" id="baby-name-input" placeholder="Baby's Name" required>
-            <button type="submit">Save Name</button>
-        </form>
-    </section>
+    <section id="app-content" class="hidden">
+        <section id="baby-name-form-section" class="hidden">
+            <h3>Enter Your Baby's Name</h3>
+            <form id="baby-name-form">
+                <input type="text" id="baby-name-input" placeholder="Baby's Name" required>
+                <button type="submit">Save Name</button>
+            </form>
+        </section>
 
-    <main id="food-chart-section" class="hidden">
-        <section class="food-category">
-            <h3 class="category-header grains">Grains</h3>
+        <main id="food-chart-section" class="hidden">
+            <section class="food-category">
+                <h3 class="category-header grains">Grains</h3>
             <ul>
                 <li data-food-id="barley">Barley <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
                 <li data-food-id="bread">Bread <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
@@ -173,12 +179,14 @@
                 <li data-food-id="placeholder-item">Placeholder Item <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></li>
             </ul>
         </section>
-    </main>
+        </main>
+    </section>
 
     <footer>
         <nav class="footer-menu">
-            <a href="#" title="add child">[+] Add Child</a>
-            <a href="#" title="first food stats">[Chart] Stats</a>
+            <div id="child-selector-container"></div>
+            <a href="#" title="add child" id="add-child-link" class="hidden">[+] Add Child</a>
+            <a href="#" title="first food stats" id="stats-link" class="hidden">[Chart] Stats</a>
         </nav>
     </footer>
 
