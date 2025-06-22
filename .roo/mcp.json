@@ -7,6 +7,11 @@
         "@modelcontextprotocol/server-filesystem",
         "."
       ]
+    },
+    "firebase": {
+      "command": "npx",
+      "args": ["-y", "firebase-tools@latest", "experimental:mcp"],
+      "disabled": false
     }
   }
 }
