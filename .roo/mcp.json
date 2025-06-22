@@ -10,8 +10,15 @@
     },
     "firebase": {
       "command": "npx",
-      "args": ["-y", "firebase-tools@latest", "experimental:mcp"],
-      "disabled": false
+      "args": [
+        "-y",
+        "firebase-tools@latest",
+        "experimental:mcp"
+      ],
+      "disabled": false,
+      "alwaysAllow": [
+        "firebase_get_project"
+      ]
     }
   }
 }

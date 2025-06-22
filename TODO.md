@@ -6,7 +6,7 @@
 
 [] add ability to "coparent" ie share 'admin' control with another user
 
-[] add abilty to share a read-only link to child's food journey (without ability to view comments)
+[] add abilty to share a read-only link to child's food journey (without ability to view comments). Default share action should only give read access for 1 day however options for 1 week, 1 month or no time limit should be selectable.
 
 [] configure firestore in Firebase:
   The Firebase Firestore integration for data storage is now complete.
