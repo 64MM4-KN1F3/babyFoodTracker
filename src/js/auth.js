@@ -10,7 +10,7 @@ import {
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-let auth;
+export let auth;
 let db;
 
 /**
@@ -19,9 +19,10 @@ let db;
  */
 export function initializeFirebaseApp(firebaseConfig) {
     const app = initializeApp(firebaseConfig);
+    console.log("Attempting to initialize Firebase app...");
     auth = getAuth(app);
     db = getFirestore(app); // Initialize Firestore
-    console.log("Firebase initialized with Auth and Firestore.");
+    console.log("Firebase app initialized. Auth object:", auth, "DB object:", db);
 }
 
 /**
@@ -29,8 +30,9 @@ export function initializeFirebaseApp(firebaseConfig) {
  * @returns {Firestore}
  */
 export function getDb() {
+    console.log("getDb called. Current db object:", db);
     if (!db) {
-        console.error("Firestore is not initialized. Call initializeFirebaseApp first.");
+        console.error("Firestore (db) is not initialized in getDb(). Call initializeFirebaseApp first.");
         // Potentially throw an error or handle re-initialization if appropriate
     }
     return db;
@@ -41,13 +43,17 @@ export function getDb() {
  * @returns {Promise<UserCredential>}
  */
 export async function signInWithGoogle() {
+    console.log("signInWithGoogle called. Current auth object:", auth);
     if (!auth) {
-        console.error("Firebase auth is not initialized.");
+        console.error("Firebase auth is not initialized in signInWithGoogle.");
         return;
     }
     const provider = new GoogleAuthProvider();
+    console.log("Provider created for Google Sign-In.");
     try {
+        console.log("Attempting signInWithPopup...");
         const result = await signInWithPopup(auth, provider);
+        console.log("signInWithPopup successful. Result:", result);
         // This gives you a Google Access Token. You can use it to access the Google API.
         // const credential = GoogleAuthProvider.credentialFromResult(result);
         // const token = credential.accessToken;
@@ -92,10 +98,15 @@ export async function signOutUser() {
  *                               It receives the user object (or null) as an argument.
  */
 export function onAuthStateChangedHandler(callback) {
+    console.log("onAuthStateChangedHandler called. Current auth object:", auth);
     if (!auth) {
-        console.error("Firebase auth is not initialized. Cannot set auth state listener.");
+        console.error("Firebase auth is not initialized in onAuthStateChangedHandler. Cannot set auth state listener.");
         // Optionally, you could queue the callback or retry once auth is initialized.
-        return () => {}; // Return a no-op unsubscriber
+        return () => { console.warn("Unsubscriber called for uninitialized auth listener."); }; // Return a no-op unsubscriber
     }
-    return onAuthStateChanged(auth, callback);
+    console.log("Setting up onAuthStateChanged listener.");
+    return onAuthStateChanged(auth, (user) => {
+        console.log("onAuthStateChanged event fired. User:", user);
+        callback(user);
+    });
 }
