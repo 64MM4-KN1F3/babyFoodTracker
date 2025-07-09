@@ -9,7 +9,11 @@
       ],
       "disabled": false,
       "alwaysAllow": [
-        "firebase_get_project"
+        "firebase_get_project",
+        "firebase_get_environment",
+        "firebase_get_sdk_config",
+        "firestore_get_rules",
+        "firebase_init"
       ]
     }
   }
