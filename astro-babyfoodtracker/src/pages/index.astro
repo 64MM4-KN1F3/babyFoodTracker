@@ -1,0 +1,35 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { foodData } from '../data/foods.js';
+import FoodCategory from '../components/FoodCategory.astro';
+---
+<MainLayout title="Baby's First Foods Tracker">
+    <Header />
+
+    <section id="app-content" class="hidden">
+        <section id="baby-name-form-section" class="hidden">
+            <h3>Enter Your Baby's Name</h3>
+            <form id="baby-name-form">
+                <input type="text" id="baby-name-input" placeholder="Baby's Name" required>
+                <button type="submit">Save Name</button>
+            </form>
+        </section>
+
+        <main id="food-chart-section" class="hidden">
+            {foodData.map(category => (
+                <FoodCategory
+                    category={category.category}
+                    className={category.className}
+                    items={category.items}
+                />
+            ))}
+        </main>
+    </section>
+
+    <Footer />
+    <script>
+        import "../js/app.js";
+    </script>
+</MainLayout>

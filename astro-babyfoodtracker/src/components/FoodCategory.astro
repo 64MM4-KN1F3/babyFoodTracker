@@ -1,0 +1,22 @@
+---
+interface Item {
+    id: string;
+    name: string;
+}
+interface Props {
+	category: string;
+	className: string;
+	items: Item[];
+}
+const { category, className, items } = Astro.props;
+---
+<section class="food-category">
+    <h3 class:list={["category-header", className]}>{category}</h3>
+    <ul>
+        {items.map((item) => (
+            <li data-food-id={item.id}>
+                {item.name} <span class="tracking-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+            </li>
+        ))}
+    </ul>
+</section>
