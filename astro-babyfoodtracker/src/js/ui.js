@@ -18,13 +18,29 @@ const DOTS_SUBCOLLECTION = 'dots'; // Subcollection for dot states within a prof
 export function toggleDot(dotElement, userId, babyName) {
   if (!userId || !babyName) {
     console.error("toggleDot called without userId or babyName. Cannot save state.");
-    // Optionally, provide user feedback here (e.g., an alert)
-    // For now, we'll still toggle the class visually but log an error.
-    dotElement.classList.toggle('dot-filled'); // Visual toggle only
+    dotElement.classList.toggle('dot-filled');
     return;
   }
-  dotElement.classList.toggle('dot-filled');
-  saveDotState(dotElement, userId, babyName);
+
+  const foodLiElement = dotElement.closest('li[data-food-id]');
+  const foodId = foodLiElement.dataset.foodId;
+  const dotsInItem = Array.from(foodLiElement.querySelectorAll('.dot'));
+  const dotIndex = dotsInItem.indexOf(dotElement);
+
+  if (dotElement.classList.contains('dot-filled')) {
+    if (window.confirm("Would you like to add a comment?")) {
+      const comment = window.prompt("Enter your comment:");
+      if (comment) {
+        saveComment(userId, babyName, foodId, dotIndex, comment);
+      }
+    } else {
+      dotElement.classList.remove('dot-filled');
+      saveDotState(dotElement, userId, babyName);
+    }
+  } else {
+    dotElement.classList.add('dot-filled');
+    saveDotState(dotElement, userId, babyName);
+  }
 }
 
 /**
@@ -81,6 +97,31 @@ export async function saveDotState(dotElement, userId, babyName) {
     }
   } else {
     console.error('Could not save dot state. Missing foodId or dotIndex.', { foodId, dotIndex, userId, babyName });
+  }
+}
+
+export async function saveComment(userId, babyName, foodId, dotIndex, comment) {
+  if (!userId || !babyName || !foodId || dotIndex === -1 || !comment) {
+    console.error('saveComment: Missing required parameters.');
+    return;
+  }
+  const db = getDb();
+  if (!db) {
+    console.error("Firestore not initialized in saveComment.");
+    return;
+  }
+
+  const dotDocId = `${foodId}_${dotIndex}`;
+  const commentsColRef = collection(db, USERS_COLLECTION, userId, PROFILES_COLLECTION, babyName, DOTS_SUBCOLLECTION, dotDocId, 'comments');
+
+  try {
+    await addDoc(commentsColRef, {
+      text: comment,
+      createdAt: new Date(),
+    });
+    console.log(`Saved comment for dot ${dotDocId}: ${comment}`);
+  } catch (error) {
+    console.error('Error saving comment to Firestore:', error);
   }
 }
 
