@@ -5,6 +5,22 @@
 [?] Add ability to add comments to food types with date captured in comment
 [ ] add ability to "coparent" ie share 'admin' control with another user
 [ ] add abilty to share a read-only link to child's food journey (without ability to view comments). Default share action should only give read access for 1 day however options for 1 week, 1 month or no time limit should be selectable.
+[ ] A random cartoon baby avatar picker
+  - When adding a new baby a popup give you 9 options to pick from and a dice icon to randomise in case none of the 9 options fit
+  - Keep avatar gender-neutral (easier)
+  - avatar characteristics are overlapping svgs
+  - characteristics
+  - face (background svg) - skin tones
+  - eye colour - brown, blue, green
+  - eye shapes - almond, round, monolid
+  - nose - only one type - button
+  - mouth - only one type - just a cute mouth
+  - ears - big, medium small
+  - hair - bald (no hair svg) - same style, different colours - black, brown, blonde, orange, strawberry-blond
+  - hat
+     - animal beanies - koala, tiger, bear
+     - normal beanie - colours - light, pastel tones
+
 
 [x] configure firestore in Firebase:
   The Firebase Firestore integration for data storage is now complete.
