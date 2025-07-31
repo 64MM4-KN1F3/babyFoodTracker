@@ -1,4 +1,4 @@
-import { toggleDot, updateBabyName, loadAllDotStates, showBabyNameForm, hideBabyNameFormAndShowChart, showAppContent, hideAppContent, updateUserEmailDisplay, showLoginButton, hideLoginButton, showLogoutButton, hideLogoutButton, showFooterControls, hideFooterControls, renderChildSelector, clearChildSelector } from './ui.js';
+import { toggleDot, updateBabyName, loadAllDotStates, showBabyNameForm, hideBabyNameFormAndShowChart, showAppContent, hideAppContent, updateUserEmailDisplay, showLoginButton, hideLoginButton, showLogoutButton, hideLogoutButton, showFooterControls, hideFooterControls, renderChildSelector, clearChildSelector, getChildId, setupAddChildByIdListener, showCoParentDropdown, hideCoParentDropdown, setupShowChildIdListener } from './ui.js';
 import { initializeFirebaseApp, signInWithGoogle, signOutUser, onAuthStateChangedHandler, getDb, auth } from './auth.js';
 import { collection, doc, getDoc, setDoc, addDoc, query, where, getDocs, updateDoc, arrayUnion, writeBatch, deleteDoc } from "firebase/firestore";
 
@@ -26,28 +26,36 @@ const PROFILES_COLLECTION = 'profiles'; // This will be a subcollection under ea
 
 // Helper functions for managing baby profiles with Firestore
 async function getBabyProfiles(userId) {
-  console.log(`app.js: getBabyProfiles called for userId: ${userId}`);
-  if (!userId) {
-    console.warn("app.js: getBabyProfiles - userId is null or undefined. Returning empty array.");
-    return [];
-  }
-  try {
-    console.log(`app.js: getBabyProfiles - Attempting to get profiles for user: ${userId}. DB object:`, db);
-    const profilesRef = collection(db, USERS_COLLECTION, userId, PROFILES_COLLECTION);
-    // const q = query(profilesRef, orderBy("createdAt", "asc")); // Optional: order by creation or name
-    const q = query(profilesRef);
-    console.log("app.js: getBabyProfiles - Query created:", q);
-    const querySnapshot = await getDocs(q);
-    console.log("app.js: getBabyProfiles - querySnapshot received:", querySnapshot);
-    const profiles = [];
-    querySnapshot.forEach((doc) => {
-      profiles.push({ id: doc.id, ...doc.data() });
-    });
-    return profiles;
-  } catch (error) {
-    console.error("Error fetching baby profiles:", error);
-    return [];
-  }
+    console.log(`app.js: getBabyProfiles called for userId: ${userId}`);
+    if (!userId) {
+        console.warn("app.js: getBabyProfiles - userId is null or undefined. Returning empty array.");
+        return [];
+    }
+    try {
+        // Query for profiles owned by the user
+        const ownedProfilesRef = collection(db, USERS_COLLECTION, userId, PROFILES_COLLECTION);
+        const ownedProfilesQuery = query(ownedProfilesRef);
+        const ownedProfilesSnapshot = await getDocs(ownedProfilesQuery);
+        const profilesMap = new Map();
+        ownedProfilesSnapshot.forEach((doc) => {
+            profilesMap.set(doc.id, { id: doc.id, ...doc.data() });
+        });
+
+        // Query for profiles shared with the user
+        const sharedProfilesRef = collection(db, PROFILES_COLLECTION);
+        const sharedProfilesQuery = query(sharedProfilesRef, where("sharedWith", "array-contains", userId));
+        const sharedProfilesSnapshot = await getDocs(sharedProfilesQuery);
+        sharedProfilesSnapshot.forEach((doc) => {
+            if (!profilesMap.has(doc.id)) {
+                profilesMap.set(doc.id, { id: doc.id, ...doc.data() });
+            }
+        });
+
+        return Array.from(profilesMap.values());
+    } catch (error) {
+        console.error("Error fetching baby profiles:", error);
+        return [];
+    }
 }
 
 // No direct saveBabyProfiles needed as we add/update individual profiles.
@@ -112,7 +120,9 @@ async function addProfile(userId, name) {
 
     const newProfileRef = await addDoc(profilesRef, {
       name: name,
-      createdAt: new Date() // Timestamp for ordering or reference
+      createdAt: new Date(), // Timestamp for ordering or reference
+      childId: crypto.randomUUID(),
+      sharedWith: []
     });
     console.log("Profile added with ID: ", newProfileRef.id, "for user:", userId);
     return newProfileRef.id;
@@ -153,6 +163,8 @@ async function handleChildSelection(userId, selectedBabyName) {
   console.log("app.js: handleChildSelection - loadProfile completed.");
 }
 
+
+
 document.addEventListener('DOMContentLoaded', () => {
   const loginButton = document.getElementById('login-button');
   const logoutButton = document.getElementById('logout-button');
@@ -187,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hideLoginButton();
       showAppContent();
       showFooterControls();
+      showCoParentDropdown();
 
       // Fetch profiles and active baby name from Firestore
       let babyProfiles = await getBabyProfiles(userId);
@@ -227,6 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hideAppContent();
       hideFooterControls();
       clearChildSelector(); // Clear child selector on logout
+      hideCoParentDropdown();
       updateBabyName(''); // Clear baby name display
       // Note: localStorage for profiles is currently global.
       // If you want to clear it on logout, uncomment below.
@@ -309,6 +323,30 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log("Stats clicked");
       // Future implementation for stats
     });
+  }
+
+  // The logic for showing child ID is now handled in ui.js
+  setupShowChildIdListener(auth, async () => {
+    const user = auth.currentUser;
+    if (user) {
+      return await getActiveBabyName(user.uid);
+    }
+    return null;
+  });
+
+  // Setup listener for adding child by ID
+  setupAddChildByIdListener(() => auth);
+
+  // Also set up the listener for the other element if it exists
+  const showChildIdLink = document.getElementById('show-child-id-link');
+  if (showChildIdLink) {
+      showChildIdLink.addEventListener('click', () => {
+          // We can reuse the same logic by dispatching a click on the menu item
+          const showChildIdMenuItem = document.getElementById('show-child-id-menu-item');
+          if(showChildIdMenuItem) {
+              showChildIdMenuItem.click();
+          }
+      });
   }
 });
 

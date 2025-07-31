@@ -1,6 +1,6 @@
 // UI manipulation functions
 import { getDb } from './auth.js'; // Assuming getDb is exported from auth.js
-import { doc, setDoc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc, arrayUnion, collectionGroup } from "firebase/firestore";
 
 // const ACTIVE_BABY_STORAGE_KEY = 'babyfoodtracker_activeBabyName'; // No longer needed here for active baby
 // const DOT_STORAGE_PREFIX = 'babyfoodtracker_dots'; // No longer needed for localStorage
@@ -226,6 +226,15 @@ export function hideFooterControls() {
     if(addChildLink) addChildLink.classList.add('hidden');
     if(statsLink) statsLink.classList.add('hidden');
 }
+export function showCoParentDropdown() {
+    const coParentDropdown = document.getElementById('co-parent-dropdown');
+    if (coParentDropdown) coParentDropdown.style.display = 'block';
+}
+
+export function hideCoParentDropdown() {
+    const coParentDropdown = document.getElementById('co-parent-dropdown');
+    if (coParentDropdown) coParentDropdown.style.display = 'none';
+}
 
 // --- Child Selector UI Functions ---
 
@@ -279,4 +288,123 @@ export function clearChildSelector() {
         container.innerHTML = '';
         container.classList.add('hidden');
     }
+}
+
+export async function getChildId(userId, babyName) {
+  if (!userId || !babyName) {
+    console.error('getChildId: Missing userId or babyName.');
+    return null;
+  }
+  const db = getDb();
+  if (!db) {
+    console.error("Firestore not initialized in getChildId.");
+    return null;
+  }
+
+  try {
+    // The profile document ID is random, so we must query by name.
+    const profilesRef = collection(db, USERS_COLLECTION, userId, PROFILES_COLLECTION);
+    const q = query(profilesRef, where("name", "==", babyName));
+    const querySnapshot = await getDocs(q);
+    
+    if (!querySnapshot.empty) {
+      // Assuming name is unique per user, return the first match.
+      return querySnapshot.docs[0].data().childId || null;
+    } else {
+      console.warn(`No profile found for ${babyName} under user ${userId}`);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error getting child ID:', error);
+    return null;
+  }
+}
+
+/**
+ * Sets up the event listener for the 'Add Child by ID' button.
+ * @param {function} getAuth - A function that returns the auth instance.
+ */
+export function setupAddChildByIdListener(getAuth) {
+  const addChildButton = document.getElementById('add-child-by-id-button');
+  if (addChildButton) {
+    addChildButton.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const auth = getAuth();
+      if (!auth || !auth.currentUser) {
+        alert("You must be logged in to add a child.");
+        return;
+      }
+      
+      const childId = prompt("Please enter the Child ID to add:");
+      if (childId) {
+        await shareChildWithCurrentUser(childId, auth.currentUser.uid);
+      }
+    });
+  }
+}
+
+/**
+ * Finds a child by their ID and shares them with the current user.
+ * @param {string} childId - The ID of the child to share.
+ * @param {string} currentUserId - The UID of the current user.
+ */
+async function shareChildWithCurrentUser(childId, currentUserId) {
+  const db = getDb();
+  if (!db) {
+    console.error("Firestore not initialized.");
+    alert("An error occurred. Please try again later.");
+    return;
+  }
+
+  // Use a collectionGroup query to find the child's profile across all users.
+  const profilesRef = collectionGroup(db, PROFILES_COLLECTION);
+  const q = query(profilesRef, where("childId", "==", childId));
+
+  try {
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      alert("Child ID is invalid.");
+      return;
+    }
+
+    // Assuming childId is unique, so we take the first result.
+    const childDoc = querySnapshot.docs[0];
+    // We get a reference to the specific document found by the collectionGroup query
+    const childDocRef = doc(db, childDoc.ref.path);
+
+    await updateDoc(childDocRef, {
+      sharedWith: arrayUnion(currentUserId)
+    });
+
+    alert("Child added successfully!");
+    // Optionally, refresh the list of children in the UI
+    // This might involve calling a function from app.js
+  } catch (error) {
+    console.error("Error adding child:", error);
+    alert("An error occurred while adding the child.");
+  }
+}
+
+export function setupShowChildIdListener(auth, getActiveBabyName) {
+  const showChildIdMenuItem = document.getElementById('show-child-id-menu-item');
+  if (showChildIdMenuItem) {
+    showChildIdMenuItem.addEventListener('click', async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const babyName = await getActiveBabyName(); // Await the promise
+        if (babyName) {
+          const childId = await getChildId(user.uid, babyName);
+          if (childId) {
+            alert(`Child ID: ${childId}`);
+          } else {
+            alert('Could not retrieve Child ID.');
+          }
+        } else {
+          alert('Please select a baby first.');
+        }
+      } else {
+        alert('You must be logged in to see the Child ID.');
+      }
+    });
+  }
 }
