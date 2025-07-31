@@ -1,0 +1,12 @@
+---
+const { category } = Astro.props;
+---
+<div class="food-category">
+    <h3>{category.name}</h3>
+    <ul>
+        {category.foods.map(food => <li>{food}</li>)}
+    </ul>
+    <div class="dots">
+        <span>.</span><span>.</span><span>.</span><span>.</span><span>.</span>
+    </div>
+</div>

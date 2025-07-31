@@ -1,0 +1,15 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FoodCategory from '../components/FoodCategory.astro';
+import { foodCategories } from '../data/foods.js';
+---
+<MainLayout title="Baby Food Tracker">
+    <Header />
+    <main>
+        <h2>Food Categories</h2>
+        {foodCategories.map(category => <FoodCategory category={category} />)}
+    </main>
+    <Footer />
+</MainLayout>
