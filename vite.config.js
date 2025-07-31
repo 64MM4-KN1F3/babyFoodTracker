@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  base: '/babyFoodTracker/',
   root: 'src',
   envDir: '../', // <-- Add this line to point to the project root for .env files
   build: {
