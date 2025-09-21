@@ -122,7 +122,8 @@ async function addProfile(userId, name) {
       name: name,
       createdAt: new Date(), // Timestamp for ordering or reference
       childId: crypto.randomUUID(),
-      sharedWith: []
+      sharedWith: [],
+      ownerId: userId
     });
     console.log("Profile added with ID: ", newProfileRef.id, "for user:", userId);
     return newProfileRef.id;
