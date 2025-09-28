@@ -1,9 +1,10 @@
 ## Baby Food Tracker 👶🍌
 
-@ - GCP config - restrict APIs for browser key in FoodTracker
-[x] refactor to use .env to store creds for apps.js so we're not committing any secrets to the repo
+[ ] Feature to enable adding new foods
 [ ] Add ability to add comments to food types with date captured in comment
 [ ] add ability to "coparent" ie share 'admin' control with another user
+@ - GCP config - restrict APIs for browser key in FoodTracker
+[x] refactor to use .env to store creds for apps.js so we're not committing any secrets to the repo
 [ ] add abilty to share a read-only link to child's food journey (without ability to view comments). Default share action should only give read access for 1 day however options for 1 week, 1 month or no time limit should be selectable.
 
 [x] configure firestore in Firebase:
